@@ -43,13 +43,15 @@ def showLevel(win, level):
         for j in range(len(level[i])):
             win.addstr(i, j, level[i][j])
     
+    win.addstr(23, 20, str(x) +", "+str(y)+" ")
+    
     win.move(y, x)
     
     return
 
 
 
-def action(win, level, key):
+def action(win, level, key, trace):
     (y, x) = win.getyx()
     
     if key == ord('q') and x>1 :
@@ -65,6 +67,9 @@ def action(win, level, key):
     
     
     if key == ord(' '):
+        trace = not(trace)
+        
+    if trace:
         #char = changeTile(win, level)
         if level[y][x] != ' ':
             level[y][x] = ' '
@@ -74,7 +79,7 @@ def action(win, level, key):
         changeAllTiles(win, level)
 
 
-    return
+    return trace
 
 
 def changeAllTiles(win, level):
@@ -159,6 +164,28 @@ def changeTile(win, level):
         
         
 
+def saveLevel(level):
+
+    fichier = open("levels.txt", 'r')
+    chaine = fichier.read()
+    levels = chaine.split("level")
+    levelNumber = len(levels)+1
+    fichier.close()
+    
+    fichier = open("levels.txt", 'a')
+    m = len(level)
+    n = len(level[1])
+    
+    fichier.write("level\n")
+    for i in range(m-1):
+        s = ""
+        for j in range(n):
+            s = s + level[i][j]
+        fichier.write(s + "\n")
+    return
+
+
+
 
 
 
@@ -178,15 +205,17 @@ def quit(win):
 
 def main():
 
+    trace = False
     win = init()
-    result = loadNew()
+    level = loadNew()
     stop = 0
     while not(stop) :
-        showLevel(win, result)
+        showLevel(win, level)
         key = win.getch()
         if key == ord('\n'):
             stop = 1
-        action(win, result, key)
+        trace = action(win, level, key, trace)
+    saveLevel(level)
     quit(win)
     return
     

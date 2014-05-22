@@ -25,7 +25,7 @@ def init():
     snake = Snake.create(35, 15, 1, 2)
 
     # creation du food
-    food = [10, 10]
+    food = None
 
     # creation du menu
     menu = Menu.create(
@@ -46,7 +46,7 @@ def init():
     # definition de la difficulte
     difficulty = 2
 
-    score = 0
+    score = -1
 
     HighScoreTable = HighScores.get()
     # creation de la variable de type game

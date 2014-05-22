@@ -55,6 +55,7 @@ def interact(game):
         game = resetScore(game)
         game = setSnake(Snake.reset(), game)
         game = setState('menu', game)
+        food = None
 
     if foodEaten(snake, food):
         game = setNewFood(game)
@@ -93,7 +94,8 @@ def setSnake(snake, game):
 
 
 def showFood(food, win):
-    win.addstr(food[1], food[0], 'X')
+    if food != None :
+        win.addstr(food[1], food[0], 'X')
 
 
 def getFood(game):
@@ -121,6 +123,8 @@ def setNewFood(game):
 
 
 def foodEaten(snake, food):
+    if food == None:
+        return True
     if food[0] == Snake.getHeadX(snake) and food[1] == Snake.getHeadY(snake):
         logging.info('some food has been eaten')
         return True
@@ -215,7 +219,7 @@ def addScore(value, game):
 
 
 def resetScore(game):
-    game['score'] = 0
+    game['score'] = -1
     return game
 
 

@@ -13,14 +13,17 @@ def log(score, name):
     highScores.append(entry)
     highScores.sort(reverse=True)
     highScores = highScores[:5]
-    with open("pickles1.dat", "wb") as f:
+    with open("highScores.dat", "wb") as f:
         pickle.dump(highScores, f)
     return highScores
 
 
 def get():
-    with open("highScores.dat", "rb") as f:
-        highScores = pickle.load(f)
+    try:
+        with open("highScores.dat", "rb") as f:
+            highScores = pickle.load(f)
+    except EOFError:
+        highScores = []
     return highScores
 
 
